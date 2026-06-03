@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+</head>
+<body>
+    <h1>Formulario</h1>
+            <table border="3px" >
+                
+                    <tr>
+                        <td align="left" width="70% ">
+                        <!-- esto es un comentario -->
+                      <form action="http://ncoge.com/phps/formulario.php" method="post">
+                        <label for="nombre">Nombre</label> 
+                        <input type="text" name="nombre" value="" />
+                        <br>
+                        <label for="nombre">Apellidos</label> 
+                        <input type="text" id="apellidos" name="USER" value="" /> 
+                        <br>
+                        <label for="nombre">Correo</label> 
+                        <input type="text" id="email" name="USER" value="" /> 
+                        <br>
+                        <label for="nombre">Hobbies</label> 
+                        <textarea  cols="50" rows ="10" name="Hobbies"></textarea>
+                        </td>
+                        <td  width="120%  >
+                           <form action="/php/insertar_subasta.php" method="post" enctype="multipart/form-
+                            data">
+                            <fieldset>
+                            <legend>Idiomas</legend>
+                            <label>Puntua tu nivel de idiomas del 1 al 5:</label> <br/>
+                            
+                            Inglés 
+                            
+                            <input type="radio" name="1" value="ninguno" checked="checked" />
+                            1
+                            <input type="radio" name="1" value="ninguno" checked="checked" />
+                            2
+                            <input type="radio" name="1" value="ninguno" checked="checked" />
+                            3
+                            <input type="radio" name="1" value="ninguno" checked="checked" />
+                            4
+                            <input type="radio" name="1" value="ninguno" checked="checked" />
+                            5
+                             <br/>
+                            Francés 
+                            <input type="radio" name="1" value="ninguno" checked="checked" />
+                            1
+                            <input type="radio" name="1" value="ninguno" checked="checked" />
+                            2
+                            <input type="radio" name="1" value="ninguno" checked="checked" />
+                            3
+                            <input type="radio" name="1" value="ninguno" checked="checked" />
+                            4
+                            <input type="radio" name="1" value="ninguno" checked="checked" />
+                            5
+                             <br/>
+                            
+                            Alemán 
+                            <input type="radio" name="1" value="ninguno" checked="checked" />
+                            1
+                            <input type="radio" name="1" value="ninguno" checked="checked" />
+                            2
+                            <input type="radio" name="1" value="ninguno" checked="checked" />
+                            3
+                            <input type="radio" name="1" value="ninguno" checked="checked" />
+                            4
+                            <input type="radio" name="1" value="ninguno" checked="checked" />
+                            5
+                             <br/>
+                            </fieldset>
+                            <form action="/php/insertar_subasta.php" method="post" enctype="multipart/form-
+                            data">
+                            <fieldset>
+                            <legend>Domino los siguientes programas</legend>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <input name="contador" type="checkbox" value="si" /> Writer
+                                        <input name="contador" type="checkbox" value="si" /> Base
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    <input name="contador" type="checkbox" value="si" /> Cale
+                                    <input name="contador" type="checkbox" value="si" /> Impress
+                                    </td>
+                                </tr>
+                            </table>
+                            </fieldset>
+                            <fieldset>
+                            <legend>Trabajo con el siguiente sistema operativo</legend>     
+                        
+                            <select id="programa" name="programa">
+                            <optgroup label="Sistemas Operativos">
+                            <option value="Windows" selected="selected">Windows</option>
+                            <option value="Mac">Mac</option>
+                            <option value="Linux">Linux</option>
+                            <option value="Other">Otro</option>
+</optgroup>
+
+                            </fieldset>
+                
+
+
+
+
+
+                        </td>
+                    </tr>
+                    <tr>
+                       
+                    
+            
+
+            
+                
+                    
+
+
+            
+            </table>
+            <div>
+                <center>
+                    <input type="reset" name="limpiar" value="Reiniciar" /><input type="image" value=img src="https://previews.123rf.com/images/sarahdesign/sarahdesign1503/sarahdesign150302277/37814977-send-button.jpg" width="100px">
+                </center>
+                </div>
+    </form>
+</body>
+</html>

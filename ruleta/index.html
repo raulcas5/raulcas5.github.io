@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hugo Ballesteros - Ruleta de Nombres</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --wheel-border: #f1c40f;
+            --text-light: #ecf0f1;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* Área de Hugo */
+        .hugo-container {
+            font-size: 50px;
+            margin-bottom: 10px;
+            z-index: 10;
+            filter: drop-shadow(0 0 10px gold);
+            animation: floating 3s ease-in-out infinite;
+            text-align: center;
+        }
+
+        @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .hugo-badge {
+            font-size: 14px;
+            background: gold;
+            color: black;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 5px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            margin: 10px 0 25px;
+            font-size: 1.5rem;
+            color: var(--wheel-border);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Contenedor del Juego */
+        .game-box {
+            position: relative;
+            width: 350px;
+            height: 350px;
+        }
+
+        /* Flecha indicadora */
+        .pointer {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 40px solid var(--wheel-border);
+            z-index: 20;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
+        }
+
+        /* La Ruleta Visual */
+        .wheel-wrapper {
+            width: 100%;
+            height: 100%;
+            border: 8px solid var(--wheel-border);
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        #wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1);
+            position: relative;
+            /* Dividido en 5 partes de 72 grados cada una */
+            background: conic-gradient(
+                #e74c3c 0deg 72deg,
+                #3498db 72deg 144deg,
+                #2ecc71 144deg 216deg,
+                #f1c40f 216deg 288deg,
+                #9b59b6 288deg 360deg
+            );
+        }
+
+        /* Etiquetas de los nombres */
+        .label {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: 100% 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            padding-right: 40px;
+            box-sizing: border-box;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+        }
+
+        button {
+            margin-top: 40px;
+            padding: 15px 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1a1a1a;
+            background-color: var(--wheel-border);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(241, 196, 15, 0.3);
+        }
+
+        button:hover {
+            transform: scale(1.08);
+            background-color: #ffdb4d;
+            box-shadow: 0 8px 25px rgba(241, 196, 15, 0.5);
+        }
+
+        button:disabled {
+            background-color: #7f8c8d;
+            cursor: not-allowed;
+            transform: scale(1);
+        }
+
+        #result {
+            margin-top: 25px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--wheel-border);
+            min-height: 2.2rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hugo-container">
+        🤴<br>
+        <div class="hugo-badge">HUGO BALLESTEROS</div>
+    </div>
+
+    <h1>Ruleta de Selección</h1>
+
+    <div class="game-box">
+        <div class="pointer"></div>
+        <div class="wheel-wrapper">
+            <div id="wheel">
+                </div>
+        </div>
+    </div>
+
+    <button id="spinBtn" onclick="spinWheel()">¡GIRAR RULETA!</button>
+
+    <div id="result">¿Quién será el elegido?</div>
+
+    <script>
+        const wheel = document.getElementById('wheel');
+        const resultDiv = document.getElementById('result');
+        const spinBtn = document.getElementById('spinBtn');
+        
+        const options = ["Hugo", "Ballesteros", "Rodriguez", "Nieto", "Ortigosa"];
+        let currentRotation = 0;
+
+        // Crear las etiquetas de texto dinámicamente
+        function createLabels() {
+            options.forEach((name, i) => {
+                const label = document.createElement('div');
+                label.className = 'label';
+                // Cada sección mide 72 grados. El texto se centra a los 36 grados de cada sección.
+                const angle = i * 72;
+                label.style.transform = `rotate(${angle + 36}deg) translate(-50%, -50%)`;
+                label.innerHTML = name;
+                wheel.appendChild(label);
+            });
+        }
+
+        createLabels();
+
+        function spinWheel() {
+            spinBtn.disabled = true;
+            resultDiv.style.opacity = "0.5";
+            resultDiv.innerHTML = "Girando...";
+            
+            // 1. Decidir el ganador antes de que termine la animación
+            const randomIndex = Math.floor(Math.random() * options.length);
+            
+            /* CÁLCULO DE LA ROTACIÓN:
+               - Queremos que el segmento 'randomIndex' quede arriba (donde está el puntero).
+               - El puntero está en 0°.
+               - El segmento i ocupa de (i*72°) a ((i+1)*72°).
+               - Para que el centro del segmento caiga en el puntero, necesitamos que la ruleta
+                 se detenga en un ángulo específico.
+            */
+            const segmentAngle = 360 / options.length;
+            const targetAngle = (randomIndex * segmentAngle);
+            const extraSpins = (10 + Math.floor(Math.random() * 5)) * 360; // 10 a 15 vueltas
+            
+            // Restamos el targetAngle porque la ruleta gira en sentido horario
+            currentRotation += extraSpins + (360 - (currentRotation % 360)) - targetAngle;
+            
+            wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+            setTimeout(() => {
+                resultDiv.style.opacity = "1";
+                resultDiv.innerHTML = `✨ ¡${options[randomIndex]}! ✨`;
+                spinBtn.disabled = false;
+            }, 4000); 
+        }
+    </script>
+</body>
+</html>

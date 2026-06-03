@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Billiards JS</title>
+    <style>
+        body {
+            background-color: #2c3e50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        #game-container {
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border: 12px solid #5d4037;
+            border-radius: 15px;
+            background-color: #2e7d32;
+        }
+
+        canvas {
+            display: block;
+            cursor: crosshair;
+        }
+
+        .ui {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .controls {
+            font-size: 0.9rem;
+            color: #bdc3c7;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ui">
+        <h2 id="status">Tu Turno - Bola Blanca</h2>
+    </div>
+
+    <div id="game-container">
+        <canvas id="poolTable"></canvas>
+    </div>
+
+    <div class="ui">
+        <div class="controls">Click y arrastra para dar potencia | Suelta para disparar</div>
+        <button onclick="resetGame()" style="margin-top:10px; padding: 8px 16px; cursor:pointer;">Reiniciar Partida</button>
+    </div>
+
+<script>
+/**
+ * LÓGICA DEL JUEGO DE BILLAR
+ */
+
+const canvas = document.getElementById('poolTable');
+const ctx = canvas.getContext('2d');
+const statusText = document.getElementById('status');
+
+// Configuración de la mesa
+const WIDTH = 800;
+const HEIGHT = 400;
+const BALL_RADIUS = 10;
+const POCKET_RADIUS = 22;
+const FRICTION = 0.985; // Fricción de la mesa
+const WALL_BOUNCE = 0.7; // Rebote en bandas
+
+canvas.width = WIDTH;
+canvas.height = HEIGHT;
+
+let balls = [];
+let pockets = [
+    {x: 0, y: 0}, {x: WIDTH/2, y: 0}, {x: WIDTH, y: 0},
+    {x: 0, y: HEIGHT}, {x: WIDTH/2, y: HEIGHT}, {x: WIDTH, y: HEIGHT}
+];
+
+let cueBall;
+let isDragging = false;
+let dragStartX, dragStartY;
+let mouseX, mouseY;
+let isMoving = false;
+
+class Ball {
+    constructor(x, y, color, number, isCue = false) {
+        this.x = x;
+        this.y = y;
+        this.vx = 0;
+        this.vy = 0;
+        this.color = color;
+        this.number = number;
+        this.isCue = isCue;
+        this.inPocket = false;
+    }
+
+    draw() {
+        if (this.inPocket) return;
+
+        // Sombra
+        ctx.beginPath();
+        ctx.arc(this.x + 2, this.y + 2, BALL_RADIUS, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(0,0,0,0.3)";
+        ctx.fill();
+        ctx.closePath();
+
+        // Bola principal
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, BALL_RADIUS, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        
+        // Reflejo de luz para efecto 3D
+        ctx.beginPath();
+        ctx.arc(this.x - 3, this.y - 3, BALL_RADIUS / 3, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255,255,255,0.4)";
+        ctx.fill();
+        ctx.closePath();
+
+        // Número
+        if (!this.isCue) {
+            ctx.fillStyle = "white";
+            if(this.color === "white") ctx.fillStyle = "black";
+            ctx.font = "bold 8px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText(this.number, this.x, this.y + 3);
+        }
+    }
+
+    update() {
+        if (this.inPocket) return;
+
+        this.x += this.vx;
+        this.y += this.vy;
+
+        // Aplicar fricción
+        this.vx *= FRICTION;
+        this.vy *= FRICTION;
+
+        // Detener si la velocidad es muy baja
+        if (Math.abs(this.vx) < 0.1) this.vx = 0;
+        if (Math.abs(this.vy) < 0.1) this.vy = 0;
+
+        // Colisión con bandas
+        if (this.x - BALL_RADIUS < 0) {
+            this.x = BALL_RADIUS;
+            this.vx = -this.vx * WALL_BOUNCE;
+        } else if (this.x + BALL_RADIUS > WIDTH) {
+            this.x = WIDTH - BALL_RADIUS;
+            this.vx = -this.vx * WALL_BOUNCE;
+        }
+
+        if (this.y - BALL_RADIUS < 0) {
+            this.y = BALL_RADIUS;
+            this.vy = -this.vy * WALL_BOUNCE;
+        } else if (this.y + BALL_RADIUS > HEIGHT) {
+            this.y = HEIGHT - BALL_RADIUS;
+            this.vy = -this.vy * WALL_BOUNCE;
+        }
+
+        // Verificar si entró en buchaca (tronera)
+        pockets.forEach(p => {
+            const dist = Math.hypot(this.x - p.x, this.y - p.y);
+            if (dist < POCKET_RADIUS) {
+                this.inPocket = true;
+                this.vx = 0;
+                this.vy = 0;
+                if (this.isCue) {
+                    setTimeout(() => resetCueBall(), 500);
+                }
+            }
+        });
+    }
+}
+
+function initBalls() {
+    balls = [];
+    // Bola blanca
+    cueBall = new Ball(200, HEIGHT / 2, "white", 0, true);
+    balls.push(cueBall);
+
+    // Crear triángulo de bolas (Rack)
+    const colors = ["#f1c40f", "#2980b9", "#e74c3c", "#8e44ad", "#e67e22", "#27ae60", "#c0392b", "#2c3e50"];
+    let startX = 550;
+    let startY = HEIGHT / 2;
+    let step = BALL_RADIUS * 2 + 1;
+    let count = 1;
+
+    for (let row = 0; row < 5; row++) {
+        for (let col = 0; col <= row; col++) {
+            let b = new Ball(
+                startX + row * (BALL_RADIUS * 1.8),
+                startY - (row * step) / 2 + col * step,
+                colors[count % colors.length],
+                count
+            );
+            balls.push(b);
+            count++;
+        }
+    }
+}
+
+function resetCueBall() {
+    cueBall.inPocket = false;
+    cueBall.x = 200;
+    cueBall.y = HEIGHT / 2;
+    cueBall.vx = 0;
+    cueBall.vy = 0;
+}
+
+function resetGame() {
+    initBalls();
+    statusText.innerText = "Partida Reiniciada";
+}
+
+// Resolver colisiones entre bolas (Física elástica)
+function resolveCollisions() {
+    for (let i = 0; i < balls.length; i++) {
+        for (let j = i + 1; j < balls.length; j++) {
+            let b1 = balls[i];
+            let b2 = balls[j];
+
+            if (b1.inPocket || b2.inPocket) continue;
+
+            let dx = b2.x - b1.x;
+            let dy = b2.y - b1.y;
+            let distance = Math.hypot(dx, dy);
+
+            if (distance < BALL_RADIUS * 2) {
+                // Resolver solapamiento (estático)
+                let overlap = BALL_RADIUS * 2 - distance;
+                let nx = dx / distance; // Normal X
+                let ny = dy / distance; // Normal Y
+                
+                b1.x -= nx * (overlap / 2);
+                b1.y -= ny * (overlap / 2);
+                b2.x += nx * (overlap / 2);
+                b2.y += ny * (overlap / 2);
+
+                // Resolver velocidades (dinámico)
+                let v1n = b1.vx * nx + b1.vy * ny;
+                let v2n = b2.vx * nx + b2.vy * ny;
+
+                // Intercambio de momentos simples (bolas de igual masa)
+                let v1nAfter = v2n;
+                let v2nAfter = v1n;
+
+                b1.vx += (v1nAfter - v1n) * nx;
+                b1.vy += (v1nAfter - v1n) * ny;
+                b2.vx += (v2nAfter - v2n) * nx;
+                b2.vy += (v2nAfter - v2n) * ny;
+            }
+        }
+    }
+}
+
+// Input de usuario
+canvas.addEventListener('mousedown', e => {
+    if (isMoving) return;
+    const rect = canvas.getBoundingClientRect();
+    dragStartX = e.clientX - rect.left;
+    dragStartY = e.clientY - rect.top;
+    
+    // Solo permitir drag si clickeas cerca de la bola blanca
+    if (Math.hypot(dragStartX - cueBall.x, dragStartY - cueBall.y) < 40) {
+        isDragging = true;
+    }
+});
+
+window.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    mouseX = e.clientX - rect.left;
+    mouseY = e.clientY - rect.top;
+});
+
+window.addEventListener('mouseup', e => {
+    if (isDragging) {
+        const rect = canvas.getBoundingClientRect();
+        let endX = e.clientX - rect.left;
+        let endY = e.clientY - rect.top;
+
+        let dx = cueBall.x - endX;
+        let dy = cueBall.y - endY;
+        
+        // Limitar potencia máxima
+        const maxPower = 25;
+        cueBall.vx = Math.max(Math.min(dx * 0.15, maxPower), -maxPower);
+        cueBall.vy = Math.max(Math.min(dy * 0.15, maxPower), -maxPower);
+
+        isDragging = false;
+    }
+});
+
+function drawTable() {
+    // Tapete
+    ctx.fillStyle = "#2e7d32";
+    ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+    // Buchacas
+    ctx.fillStyle = "#1a1a1a";
+    pockets.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, POCKET_RADIUS, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "#444";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+    });
+
+    // Línea de salida (D-line)
+    ctx.beginPath();
+    ctx.moveTo(200, 0);
+    ctx.lineTo(200, HEIGHT);
+    ctx.strokeStyle = "rgba(255,255,255,0.1)";
+    ctx.stroke();
+}
+
+function gameLoop() {
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    drawTable();
+
+    let moving = false;
+    balls.forEach(ball => {
+        ball.update();
+        ball.draw();
+        if (ball.vx !== 0 || ball.vy !== 0) moving = true;
+    });
+    
+    isMoving = moving;
+    resolveCollisions();
+
+    // Dibujar taco / línea de guía si estamos apuntando
+    if (!isMoving && !cueBall.inPocket) {
+        if (isDragging) {
+            // Línea de potencia
+            ctx.beginPath();
+            ctx.moveTo(cueBall.x, cueBall.y);
+            ctx.lineTo(mouseX, mouseY);
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
+            ctx.setLineDash([5, 5]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Guía de dirección (opuesta al arrastre)
+            let dx = cueBall.x - mouseX;
+            let dy = cueBall.y - mouseY;
+            ctx.beginPath();
+            ctx.moveTo(cueBall.x, cueBall.y);
+            ctx.lineTo(cueBall.x + dx * 2, cueBall.y + dy * 2);
+            ctx.strokeStyle = "rgba(255, 255, 0, 0.2)";
+            ctx.stroke();
+        } else {
+            // Solo una pequeña guía visual de apuntado
+            let angle = Math.atan2(mouseY - cueBall.y, mouseX - cueBall.x);
+            ctx.beginPath();
+            ctx.moveTo(cueBall.x, cueBall.y);
+            ctx.lineTo(cueBall.x + Math.cos(angle) * 40, cueBall.y + Math.sin(angle) * 40);
+            ctx.strokeStyle = "rgba(255,255,255,0.2)";
+            ctx.stroke();
+        }
+    }
+
+    requestAnimationFrame(gameLoop);
+}
+
+// Iniciar
+initBalls();
+gameLoop();
+
+</script>
+</body>
+</html>

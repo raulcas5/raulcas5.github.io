@@ -1,0 +1,31 @@
+body {
+background-repeat: no-repeat;
+background-position: top center;
+background-attachment: fixed;
+background-image: url(/arcaneficheros/arcaneficheros/images/fondo.jpg);
+text-align: center;
+}
+
+h1 {
+background-color: black;
+color: white;
+border-left: green solid 10px;
+}
+img {
+    border:10px yellow;
+    border-radius: 25px;
+    box-shadow: 10px 5px 5px black;
+   height: 300px;
+}
+
+ul {
+    list-style-type: upper-roman;
+}
+
+li {
+    display: inline;
+    border: purple 2px solid;
+}
+
+a {
+}

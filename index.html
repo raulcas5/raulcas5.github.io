@@ -4,39 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis prácticas</title>
+    <style>
+        /* Estilos para la lista de prácticas */
+        ul {
+            list-style: none; /* Quitamos los puntitos de la lista */
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Espacio entre cada rectángulo */
+        }
+
+        /* Transformamos los enlaces en rectángulos con contorno neón */
+        ul li a {
+            display: block;
+            padding: 12px 20px;
+            color: #ffffff !important; /* Texto blanco siempre legible */
+            text-decoration: none; /* Quitamos el subrayado feo */
+            font-family: sans-serif;
+            font-weight: bold;
+            background-color: rgba(13, 17, 23, 0.8); /* Fondo oscuro semitransparente */
+            
+            /* Contorno Azul Neón */
+            border: 2px solid #00f0ff; 
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.3), inset 0 0 5px rgba(0, 240, 255, 0.2);
+            
+            /* Transición suave para las animaciones */
+            transition: all 0.3s ease-in-out; 
+        }
+
+        /* Efecto al pasar el ratón (Hover) */
+        ul li a:hover {
+            transform: scale(1.06); /* Se hace un 6% más grande */
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.8), inset 0 0 10px rgba(0, 240, 255, 0.4); /* El neón brilla más */
+            background-color: rgba(0, 240, 255, 0.1); /* Ligero destello azul de fondo */
+            border-color: #00f0ff;
+        }
+
+        /* Ajuste estético para la tabla para que no se vea vieja */
+        table {
+            border-collapse: collapse;
+            border: 2px solid #00f0ff !important;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        td {
+            padding: 20px;
+        }
+    </style>
 </head>
 <body background="https://wallpapers.com/images/featured/lobo-negro-0wz2inoo38r5vki0.jpg" text="white" vlink="yellow" link="green">
     <div align="center">
-        <H1>Mis prácticas</H1>
+        <h1 style="text-shadow: 0 0 15px #00f0ff;">Mis prácticas</h1>
         <hr color="white">
     </div>
     <div>
         <p>
             <br>
         </p>
-        <table>
-            <tr>
-                <td width="10%">
-                    <p aligh="center">
-
-                    </p>
+        <table border="2px" align="center"> <tr>
+                 <td align="center" width="50%" >                
+                    <img src="https://media.tenor.com/GqvlusFnWh0AAAAe/good-answer-nephew.png" style="border-radius: 10px; max-width: 100%;">
                 </td>
-                <td width="30%">
-                </td>
-                <td width="5%">
-                    <p aligh="center">
-                    </p>
-                </td>   
                 <td width="50%">
-                    <ul >
+                    <ul>
                         <li><a href="curriculum1.html">Práctica 1</a></li>
-                        <li>Práctica 2</li>
+                        <li><a href="formulario.html">Práctica 2</a></li>
+                        <li><a href="p4/index.html">Práctica 3</a></li>
+                        <li><a href="practica2/">Práctica 4</a></li>
+                        <li><a href="PRACTICAYT/Ej4/index.html">Práctica 5 (duplicada de la 6 por error)</a></li>
+                        <li><a href="PRACTICAYT/Ej4/index.html">Práctica 6</a></li>
+                        <li><a href="FLOAT/index.html">Práctica FLOAT</a></li>
+                        <li><a href="PRACTICARES/index.html">Práctica FLOAT EXTRA</a></li>
+                        <li><a href="flexpractica1/index.html">Práctica FLEX</a></li>
+                        <li><a href="ejercicios/gatos.html">GATOS</a></li>
+                        <li><a href="ejercicios/spock.html">SPOCK</a></li>
+                        <li><a href="ejercicios/temperatura.html">TEMPERATURA</a></li>
+                        <li><a href="ejercicios/monedas.html">MONEDAS</a></li>
+                        <li><a href="pokemon/index.html">POKEDEX</a></li>
                     </ul>
                 </td>
-                <td width="10%">
-                    <p aligh="center">
-                    </p>
-                </td>                
             </tr>
         </table>
     </div>        

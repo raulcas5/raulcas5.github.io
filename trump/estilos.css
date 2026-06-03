@@ -1,0 +1,322 @@
+*{
+  margin: 0px auto;
+}
+
+body {
+  background-image: url("/FLOAT_EXTRA/images/sdaas.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  font-family: 'Indie Flower', cursive;
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+img {
+  border: dashed 5px #FF9900;
+  margin: 10px;
+}
+
+ul {
+  color: white;
+}
+
+p {
+  margin-bottom: 5px;
+}
+
+#header {
+  margin-top: 35px;
+  text-align: center;
+  background-image: url("https://media.istockphoto.com/id/1089425302/es/foto/venezuela-y-estados-unidos-dos-banderas-juntos-relaciones-textil-tela-textura-de-la-tela.jpg?s=612x612&w=0&k=20&c=3ttmhmbahSUEbHV17mkKsgOrLbAATBOpEaz9CGPtc1c=");
+  background-color: #FF9900;
+  border-bottom: 5px solid #6599FF;
+  border-top: 5px solid #6599FF;
+  color: rgb(7, 129, 13);
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  padding-top: 10px;
+}
+
+#content{
+  
+  
+
+}
+
+#menu {
+  /*
+  Punto 1: Barra de menu siempre estara 
+  */position: fixed;
+  /* necesitas 3 instrucciones*/
+  /*1: */margin-top: 0px;
+  /*2: */width: 100%;
+  /*3: */ top: 0px;
+  text-align: center;  
+  background-color: #097054;
+  border: 1px solid #FF9900;
+  font-family: 'Pacifico', cursive;
+  font-size: 1.2em;
+ 
+}
+
+#menu a{
+  color: white;
+  text-decoration: none;
+}
+.icono {
+  width: 50px;
+  margin: 20px 0;
+  
+}
+#menulateral {
+  /*
+  Punto 1: Barra de menu siempre estara 
+  */position: fixed;
+  /* necesitas 3 instrucciones*/
+  /*1: */
+  /*2: */width: 7%;
+  height: 60%;
+  /*3: */ left: 90%;
+  bottom: 0;
+  right: 0;
+  
+  background-image: url("https://s2.abcstatics.com/Media/201407/23/bandera-nacional-colon--644x362.jpg");
+ 
+  font-family: 'Pacifico', cursive;
+  font-size: 1.2em;
+ 
+}
+
+#menulateral a{
+  color: white;
+  text-decoration: none;
+  
+}
+
+#menulateral li{
+  display:flex;
+  padding-right: 30%;  
+}
+
+#menulateral li a:hover{
+  /*
+  Punto 1: Los enlaces cambian de color de fondo y estan subrayados de color azul
+  */
+  /* necesitas 2 instrucciones*/
+  /*1: */border-bottom: 2px blue solid;
+  /*2: */background-color: red;
+}
+
+
+#menu li{
+  display: inline;
+  padding-left: 5px;  
+}
+
+#menu li a:hover{
+  /*
+  Punto 1: Los enlaces cambian de color de fondo y estan subrayados de color azul
+  */
+  /* necesitas 2 instrucciones*/
+  /*1: */border-bottom: 2px blue solid;
+  /*2: */background-color: red;
+}
+
+#footer{
+  /*
+  Punto 6: Barra de pie de pagina siempre estara 
+  */position: fixed;
+  /* necesitas 3 instrucciones*/
+   /*1: */margin-bottom: 0px;
+  /*2: */width: 100%;
+  /*3: */ bottom: 0px;
+  
+  background-color: #097054;
+  text-align: center;
+  color: white;
+  border-top: 5px solid black;
+  clear: both;
+}
+
+#footer a{
+  color: white;
+  text-decoration: none;
+}
+
+#footer a:hover{
+  color: #443266;
+  background-color: white;
+  text-decoration: none;
+}
+#image {
+  text-align: right;
+  margin-right: 60px;
+}
+
+
+#imageLeft {
+ /*
+  Punto 2: La capa de las imagenes debe aparecer a la izquierda de la pantalla
+ */
+
+  /* necesitas 1 instruccion*/
+  /*1: */float: left;
+  text-align: center;
+  padding-bottom: 5px;
+}
+
+#imageRight {
+ /*
+  Punto 2: La capa de las imagenes debe aparecer a la derecha de la pantalla
+ */
+
+  /* necesitas 1 instruccion*/
+  /*1: */float: right;
+  text-align: center;
+  padding-bottom: 5px;
+  margin-right: 15%;
+}
+
+#textMain {
+/*
+  Punto 3: Para que la capa de la imagen y el float NO sigan la dinamica de la seccion anterior hay que romperla
+ */
+
+  /* necesitas 1 instruccion*/
+  /*1: */clear: left;
+  
+}
+
+#imageToHide {
+ /*
+  Punto 3: La capa de las imagenes debe aparecer a la izquierda de la pantalla
+ */
+
+  /* necesitas 1 instruccion*/
+  /*1: */float: left;
+  text-align: center;
+  margin-bottom: 40px;
+  
+  
+ 
+  
+}
+
+#textCookie {
+  text-align: center;
+}
+
+#cookieEU {
+ /*
+  Punto 4: La capa esta posicionada casi al centro de la pantalla. Se diferencia del menu y del footer en que NO se queda fija al hacer scroll de la pagina.
+ */
+
+  /* necesitas 4 instrucciones. 3 son distancia a los bordes :)*/
+  /*1: */margin-left: 8%;
+  /*2: */;position: absolute;    
+  /*3: */margin-right: 8%;    
+  /*4: */ margin-top: 10%;   
+  border:2px solid red;
+  background-color: white;
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+  box-shadow: 2px 2px 50px black;
+}
+
+#text2 {
+  margin-top: 10px;
+  padding: 15px;
+  border: 5px dashed black;
+  background-color: white;
+  margin: 10px 250px ;
+  
+  
+  
+}
+
+#textCentral {
+  margin-top: 10px;
+  padding: 15px;
+  border: 5px dashed black;
+  background-color: white;
+  margin: 10px 250px ;
+  border-radius: 30px 30px 30px 30px ;
+  margin-left: 0%;
+  margin-right: 15%;
+ 
+ 
+}
+
+.button {
+  	background-color: hsl(164, 85%, 24%); /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.button:hover {
+    box-shadow:0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+@media all and (max-width: 500px) {
+  #imageLeft {
+    /*
+    Punto 7.1: Barra de menu siempre estara 
+    */
+    /* necesitas 1 instruccion*/
+    /*1: */float:none;
+    text-align: center;
+    padding-bottom: 5px;
+  }
+
+  #imageRight {
+    /*
+    Punto 7.1: Barra de menu siempre estara 
+    */
+    /* necesitas 1 instruccion*/
+    /*1: */float:none;
+    text-align: center;
+    clear: both;
+  padding-bottom: 5px;
+  }
+  
+  #textCentral {
+    margin: 0px 0px ;
+  }
+  
+  #imageToHide {
+    /*
+    Punto 7.2: Barra de menu siempre estara 
+    */
+    /* necesitas 1 instruccion*/
+    /*1: */float:none;
+
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  #text2 {
+    margin-right: 0px;
+  }
+  
+  #header {
+    margin-top: 50px;
+  }
+ 
+}
+
+@media all and (max-width: 300px) {
+  #header {
+    /*
+    Cambio el margen para que no lo tape el menu
+    */
+    margin-top: 100px;
+  }
+}

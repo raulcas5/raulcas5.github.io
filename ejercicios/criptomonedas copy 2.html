@@ -1,0 +1,224 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conversor Cripto PRO</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+  background:#0d1117;
+  color:white;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:30px;
+}
+
+.contenedor{
+  width:100%;
+  max-width:1100px;
+  background:#161b22;
+  border-radius:15px;
+  padding:30px;
+  box-shadow:0 0 20px rgba(0,0,0,.4);
+}
+
+h1{
+  margin-bottom:10px;
+}
+
+.subtitulo{
+  color:#8b949e;
+  margin-bottom:25px;
+}
+
+.formulario{
+  display:grid;
+  grid-template-columns:2fr 2fr 1fr 1fr;
+  gap:15px;
+  margin-bottom:30px;
+}
+
+input, select, button{
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  outline:none;
+}
+
+input, select{
+  background:#0d1117;
+  color:white;
+}
+
+button{
+  background:#238636;
+  color:white;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+button:hover{
+  background:#2ea043;
+}
+
+.reset{
+  background:#30363d;
+}
+
+.reset:hover{
+  background:#484f58;
+}
+
+.resultados{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:#0d1117;
+  padding:20px;
+  border-radius:12px;
+  border:1px solid #30363d;
+}
+
+.card h3{
+  margin-bottom:10px;
+}
+
+.card p{
+  margin:5px 0;
+}
+
+.precio{
+  color:#8b949e;
+  font-size:14px;
+}
+
+.error{
+  color:#ff6b6b;
+  margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+<h1>Conversor de criptomonedas</h1>
+<p class="subtitulo">
+Consulta cuántas criptomonedas puedes comprar con tu dinero.
+</p>
+
+<div class="formulario">
+
+<input type="number" id="cantidad" value="100" min="0">
+
+<select id="moneda">
+<option value="EUR">EUR - Euro</option>
+<option value="USD">USD - Dólar</option>
+<option value="GBP">GBP - Libra</option>
+</select>
+
+<button id="convertir">Convertir</button>
+<button class="reset" id="reset">Reset</button>
+
+</div>
+
+<div id="resultados" class="resultados"></div>
+<p id="error" class="error"></p>
+
+</div>
+
+<script>
+let lista = ["BTC","ETH","SOL","DOGE"];
+
+let cantidad = document.getElementById("cantidad");
+let moneda = document.getElementById("moneda");
+let convertirBtn = document.getElementById("convertir");
+let resetBtn = document.getElementById("reset");
+let resultados = document.getElementById("resultados");
+let error = document.getElementById("error");
+
+function crearCard(cripto, precio, dinero, monedaActual){
+
+    let total = dinero / precio;
+
+    let div = document.createElement("div");
+    div.classList.add("card");
+
+    div.innerHTML = `
+        <h3>${cripto}</h3>
+        <p><strong>${total.toFixed(6)} ${cripto}</strong></p>
+        <p class="precio">1 ${cripto} = ${precio.toFixed(2)} ${monedaActual}</p>
+    `;
+
+    return div;
+}
+
+async function convertir(){
+
+    resultados.innerHTML = "";
+    error.textContent = "";
+
+    let valor = parseFloat(cantidad.value);
+
+    if(isNaN(valor) || valor <= 0){
+        error.textContent = "Introduce una cantidad válida";
+        return;
+    }
+
+    try{
+
+        for(let cripto of lista){
+
+            let url = `https://api.coinbase.com/v2/prices/${cripto}-${moneda.value}/spot`;
+
+            let response = await fetch(url);
+            let datos = await response.json();
+
+            let precio = parseFloat(datos.data.amount);
+
+            let card = crearCard(
+                cripto,
+                precio,
+                valor,
+                moneda.value
+            );
+
+            resultados.appendChild(card);
+        }
+
+    }catch(e){
+        error.textContent = "Error al cargar datos";
+        console.log(e);
+    }
+}
+
+function resetear(){
+    cantidad.value = 100;
+    moneda.value = "EUR";
+    resultados.innerHTML = "";
+    error.textContent = "";
+}
+
+convertirBtn.addEventListener("click", convertir);
+resetBtn.addEventListener("click", resetear);
+</script>
+
+</body>
+</html>
+
+

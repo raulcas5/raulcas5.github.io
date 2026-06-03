@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversor cripto simple</title>
+
+</head>
+<body>
+  <div class="contenedor">
+    <h1>Conversor de criptomonedas</h1>
+
+    <div class="formulario">
+      Euros: <input type="number" id="cantidad" value="100" min="0" step="0.01">
+      <input type="button" id="convertir" value="Convertir">
+    </div>
+
+    <div id="resultados" class="resultados"></div>
+    <p id="error" class="error"></p>
+  </div>
+
+  <script>
+  // Variables
+  let moneda = "EUR";
+  let lista = ["BTC", "ETH", "SOL", "DOGE"];
+
+  let cantidad = document.getElementById("cantidad");
+  let convertirBtn = document.getElementById("convertir");
+  let resultados = document.getElementById("resultados");
+  let error = document.getElementById("error");
+
+  /*
+    Devuelve un <li> con los datos
+  */
+  function creaElemento(cripto, precio, euros) {
+    let li = document.createElement("li");
+
+    let compradas = euros / precio;
+
+    li.textContent =
+      `${cripto} (${precio} EUR) comprarías ${compradas.toFixed(6)} monedas`;
+
+    return li;
+  }
+
+  async function convertir() {
+    error.textContent = "";
+    resultados.innerHTML = "";
+
+    let valor = parseFloat(cantidad.value);
+
+    if (isNaN(valor) || valor <= 0) {
+      error.textContent = "Introduce una cantidad válida";
+      return;
+    }
+
+    let ul = document.createElement("ul");
+
+    try {
+      for (let cripto of lista) {
+        let url = `https://api.coinbase.com/v2/prices/${cripto}-${moneda}/spot`;
+
+        let response = await fetch(url);
+        let datos = await response.json();
+
+        let precio = parseFloat(datos.data.amount);
+
+        let li = creaElemento(cripto, precio, valor);
+
+        ul.appendChild(li);
+      }
+
+      resultados.appendChild(ul);
+
+    } catch (e) {
+      error.textContent = "Error al obtener datos";
+      console.log(e);
+    }
+  }
+
+  convertirBtn.addEventListener("click", convertir);
+</script>
+</body>
+</html>
+
+

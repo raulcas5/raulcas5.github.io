@@ -1,0 +1,247 @@
+#menu{
+    background-image: url("/PRACTICARES/images/7db2f9b0-7385-11ee-b50e-f70ada220e45.jpg.webp");
+    color: white;
+    text-align: center;
+}
+body {
+  
+   background-color: darkgray;
+   background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  font-family: 'Indie Flower', cursive;
+  
+}
+#cookieEU {
+ margin-left: 8%;
+  position: absolute;    
+  margin-right: 8%;    
+   margin-top: 10%;   
+  border:2px solid red;
+  background-color: white;
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+  box-shadow: 2px 2px 50px black;
+  text-align: center;
+}
+#textCookie {
+  text-align: center;
+}
+
+#header{
+   border: 5px greenyellow;
+   
+   background-image: url("/PRACTICARES/images/8f32e6c618e8403e021534b4bc1119c2.jpg");
+   padding-top: 80px;
+   top: 0%;
+   color: white;
+   
+}
+
+
+#main{
+   border: 2px black;
+   background-color: darkgray;
+}
+#izquierda{
+   border: 5px red;
+   float:left;
+   width: 85%;
+   background-color: darkgray;
+
+}
+#uno,#dos{
+    border: dashed 3px black;
+    border-radius: 30px;
+    width: 95%;
+    margin: 10px;
+    
+    
+}
+#uno::after {
+  content: "";
+  display: block;
+  clear: both;
+}  
+#dos::after {
+  content: "";
+  display: block;
+  clear: both;
+}  
+
+
+#unoTexto{
+   float: left;
+   width: 70%;
+}
+#unoImagen{
+   float: right;
+   width: 30%;
+   
+}
+#dosTexto{
+   float: right;
+   width: 70%;
+}
+#dosImagen{
+   float: left;
+   width: 30%;
+}
+img {
+    border: 5px dashed white;
+    border-radius: 30px;
+}
+.button {
+  	background-color: hsl(164, 85%, 24%); 
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.button:hover {
+    box-shadow:0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+
+#derecha{
+   float: right;
+   border: 2px blue;
+   width: 15%;
+   height: 1000px;
+   text-align: center;
+   background-color: darkgray;
+}
+#derecha li{ 
+   list-style: none;
+}
+#derecha li a:hover{
+ border-bottom: 2px red solid;
+  
+}
+
+
+
+
+#menu {
+  /*
+  Punto 1: Barra de menu siempre estara 
+  */position: fixed;
+  /* necesitas 3 instrucciones*/
+  /*1: */margin-top: 0px;
+  /*2: */width: 100%;
+  /*3: */ top: 0px;
+  text-align: center;  
+  background-color: #097054;
+  border: 1px solid #FF9900;
+  font-family: 'Pacifico', cursive;
+  font-size: 1.2em;
+ 
+}
+
+#menu a{
+  color: white;
+  text-decoration: none;
+}
+#menu li{
+  display: inline;
+  padding-left: 5px;  
+}
+
+#menu li a:hover{
+  /*
+  Punto 1: Los enlaces cambian de color de fondo y estan subrayados de color azul
+  */
+  /* necesitas 2 instrucciones*/
+  /*1: */border-bottom: 2px blue solid;
+  /*2: */background-color: grey;
+}
+#footer{
+  /*
+  Punto 6: Barra de pie de pagina siempre estara 
+  */position: fixed;
+  /* necesitas 3 instrucciones*/
+   /*1: */margin-bottom: 0px;
+  /*2: */width: 100%;
+  /*3: */ bottom: 0px;
+  
+  background-color: #097054;
+  text-align: center;
+  color: white;
+  border-top: 5px solid black;
+  clear: both;
+}
+
+#footer a{
+  color: white;
+  text-decoration: none;
+}
+
+#footer a:hover{
+  color: #443266;
+  background-color: white;
+  text-decoration: none;
+}
+
+
+
+
+@media all and (max-width:700px){
+    #unoImagen,#dosImagen,#derecha,#unoTexto,#dosTexto{
+        float: none;
+        text-align: center;     
+    }
+    
+    
+
+    /*#derecha {
+      position: static;
+        display: inline-block;
+        text-align: center;
+        padding: 10px;
+        margin-left: 10px;
+    }*/
+    #derecha {
+        position: static;
+        text-align: center;
+        padding: 10px 0;
+        margin-top: 10px;
+        margin-bottom: 70px;
+        width: 100%;
+        height: auto; 
+    }
+    
+    #derecha ul {
+        
+         
+        align-items: center; /* Centrar verticalmente */
+        padding: 0;
+        margin: 0;
+    }
+    
+    #derecha li {
+        display: inline-block; /* Mostrar elementos en línea */
+        margin: 0 5px; 
+    }
+    
+    #derecha a {
+        display: inline-block;
+        margin: 0;
+    }
+    
+    #derecha img {
+        width: 40px; 
+        height: auto;
+    }
+    
+    #izquierda {
+        width: 100%;
+    }
+
+
+    
+    
+}

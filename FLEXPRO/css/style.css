@@ -1,0 +1,55 @@
+/* Contenedor principal */
+.card {
+ display: flex;
+ flex-direction: column; /* Apila las secciones verticalmente */
+ gap: 20px;
+ width: 300px;
+ padding: 20px;
+ border-radius: 15px;
+ box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+ font-family: sans-serif;
+}
+/* Cabecera: Foto + Nombre */
+.header {
+ display: flex;
+ align-items: center; /* Centra el texto con la imagen */
+ gap: 15px;
+}
+.avatar {
+ width: 50px;
+ height: 50px;
+ background: #3498db;
+ border-radius: 50%;
+}
+/* Estadísticas: Distribución uniforme */
+.stats {
+ display: flex;
+ justify-content: space-around; /* Reparte el espacio entre los items */
+ border-top: 1px solid #eee;
+ padding-top: 15px;
+}
+.stat-item {
+ display: flex;
+ flex-direction: column; /* El número arriba y el texto abajo */
+ align-items: center;
+}
+/* Botones: Uso de flex-grow */
+.actions {
+ display: flex;
+ gap: 10px;
+}
+.btn-primary {
+ flex-grow: 2; /* Ocupa 2 partes del espacio */
+ background: #3498db;
+ color: white;
+ border: none;
+ padding: 10px;
+ border-radius: 5px;
+}
+.btn-secondary {
+ flex-grow: 1; /* Ocupa 1 parte del espacio */
+ background: #ecf0f1;
+ border: none;
+ padding: 10px;
+ border-radius: 5px;
+}

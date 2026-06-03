@@ -1,0 +1,128 @@
+/*
+    CSS para el examen
+
+    colores:
+
+    fondo: white;
+    linea: lightgray;
+    boton: #007BFF;
+    boton seleccionado: #0056b3;
+*/
+
+body {
+width: 90%;
+text-align: center;
+border-radius: 5px solid black;
+}
+
+.header {
+text-align: center;
+background-color: black;
+color: white;
+border-radius: 5px;
+height: 70px;
+
+}
+
+.container {
+
+border-radius: 3px black solid;
+border-top: 5px lightgrey;
+padding: 20px;
+box-shadow: lightgray 34px;
+padding: 20px;
+
+
+}
+
+.ticktocker, .footer {
+
+}
+.footer {
+text-align: center;
+}
+
+.imageHome{
+    border:black 4px solid;
+    border-radius: 5%;
+    text-align: center;
+    width: 60%;
+
+    /* Se utiliza en imágenes y videos 
+    para asegurarse de que siempre llenen 
+    completamente el contenedor, manteniendo
+    su relación de aspecto*/
+    object-fit: cover; 
+}
+
+.ticktocker .images {
+
+    
+    width: 150px;
+    height: 150px;
+    border-radius: 70px;    
+    /* Se utiliza en imágenes y videos 
+    para asegurarse de que siempre llenen 
+    completamente el contenedor, manteniendo 
+    su relación de aspecto*/
+    object-fit: cover; 
+}
+
+.ticktocker h2 {
+    color:black;
+    font-size: 1.5em;
+    margin: 10px 0;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.ticktocker p {
+    color: black;
+    font-size: 1em;
+}
+
+#menu {
+    
+}
+
+li {
+    display: inline; 
+  border-left: 5px solid red; 
+  padding-left: 5px; 
+  text-align: center;
+}
+
+#menu a {
+
+}
+
+#menu a:hover {
+border-bottom: 2px red solid;
+}
+
+
+.button {
+    padding: 10px 20px;
+    color: white;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    /* animacion en css, para cambiar el color del boton, no visto en clase 
+    pero yo te lo regalo ;) */
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+background-color:#0056b3;
+}
+
+@media all and (max-width: 700px) {
+    .imageHome {
+        width: 50%;
+        height: auto;
+        border: 5px solid red; 
+        width: 700px; 
+    }
+}

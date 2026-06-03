@@ -1,0 +1,31 @@
+body {
+background-image: url("../images/fondo.jpg");
+background-size: cover;
+background-repeat: no-repeat;
+background-attachment: fixed;
+background-position: top center;
+text-align: center;
+overflow: hidden;
+}
+
+h1 { background-color: grey;
+     color: white;
+      text-align:center;
+    border-left: solid 10px orange;
+}
+
+img { size-adjust: 300px;  
+    border: 7px solid black;
+  border-radius: 7px;
+  box-shadow: 4px 4px gainsboro;
+}
+
+ul {
+
+}
+
+li {
+    border-style: solid;
+    display: inline;
+}
+
