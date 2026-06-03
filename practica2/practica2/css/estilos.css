@@ -1,0 +1,87 @@
+*{
+
+}
+
+body {
+  background-color: yellow;
+}
+
+h1 {
+    border-bottom: black 5px;
+}
+
+img {
+  
+}
+
+ul {
+
+}
+
+li {
+
+}
+
+p {
+  
+}
+
+#header {
+  
+}
+
+#content{
+  
+}
+
+#text {
+  
+}
+
+#text p {
+  
+}
+
+#text p:first-child {
+  border-radius: dotted;
+}
+
+#text p:last-child {
+
+}
+
+#menu {
+
+}
+
+#menu a{
+
+}
+
+
+#menu li{
+
+}
+
+#menu li a:hover{
+
+}
+
+#footer{
+
+}
+
+#footer a{
+
+}
+
+#footer a:hover{
+
+}
+#image {
+
+}
+
+@media all and (max-width: 500px) {
+
+}
